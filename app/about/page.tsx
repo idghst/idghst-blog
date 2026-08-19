@@ -30,12 +30,6 @@ export default function AboutPage() {
           이 사이트는 Google AdSense 등 광고를 통해 운영될 수 있습니다. 광고는
           콘텐츠와 명확히 구분되며, 광고주가 편집 방향에 영향을 주지 않습니다.
         </p>
-        <h2>연락</h2>
-        <p>
-          제보·문의는{" "}
-          <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> 로 보내
-          주세요.
-        </p>
       </div>
     </div>
   );
