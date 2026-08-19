@@ -2,12 +2,6 @@ import Link from "next/link";
 import { typeMeta } from "@/lib/site";
 import type { PostType } from "@/lib/site";
 
-const colorByType: Record<PostType, string> = {
-  guide: "text-[var(--color-guide)] border-[var(--color-guide)]",
-  news: "text-[var(--color-news)] border-[var(--color-news)]",
-  stock: "text-[var(--color-stock)] border-[var(--color-stock)]",
-};
-
 export function TypeBadge({
   type,
   asLink = true,
@@ -15,7 +9,8 @@ export function TypeBadge({
   type: PostType;
   asLink?: boolean;
 }) {
-  const cls = `inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold tracking-wide ${colorByType[type]}`;
+  const cls =
+    "inline-flex items-center rounded-full border bg-[var(--color-paper-2)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white";
   const label = typeMeta[type].label;
   if (!asLink) return <span className={cls}>{label}</span>;
   return (

@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import { Gowun_Batang, IBM_Plex_Sans_KR, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Sans_KR, IBM_Plex_Mono } from "next/font/google";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 import { SiteHeader } from "@/components/site-header";
 import { AdsenseLoader } from "@/components/ads/adsense-loader";
 import "./globals.css";
-
-const display = Gowun_Batang({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-newsreader",
-  display: "swap",
-});
 
 const sans = IBM_Plex_Sans_KR({
   subsets: ["latin"],
@@ -68,7 +61,7 @@ export default function RootLayout({
   return (
     <html lang={siteConfig.lang}>
       <body
-        className={`${sans.variable} ${display.variable} ${mono.variable} min-h-dvh flex flex-col`}
+        className={`${sans.variable} ${mono.variable} min-h-dvh flex flex-col`}
       >
         <SiteHeader />
         <main className="flex-1">{children}</main>
@@ -82,45 +75,50 @@ export default function RootLayout({
 function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="mt-24 border-t bg-[var(--color-paper-2)]/60">
-      <div className="wrap py-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+    <footer className="mt-24 border-t bg-[#141414]">
+      <div className="wrap grid gap-12 py-16 text-sm sm:grid-cols-2 lg:grid-cols-4 lg:py-24">
         <div className="lg:col-span-2">
-          <div className="font-display text-xl">{siteConfig.name}</div>
-          <p className="mt-3 max-w-sm text-[var(--color-ink-soft)]">
+          <div className="flex items-center gap-3">
+            <span className="h-px w-8 bg-[var(--color-brand)]" />
+            <span className="text-lg font-semibold tracking-[0.14em]">
+              {siteConfig.name}
+            </span>
+          </div>
+          <p className="mt-6 max-w-sm leading-6 text-[var(--color-ink-soft)]">
             {siteConfig.description}
           </p>
         </div>
         <nav className="flex flex-col gap-2">
-          <span className="text-xs uppercase tracking-widest text-[var(--color-ink-soft)]">
+          <span className="eyebrow mb-3 text-[var(--color-brand)]">
             콘텐츠
           </span>
-          <Link href="/guide" className="hover:text-[var(--color-brand)]">
+          <Link href="/guide" className="min-h-8 hover:text-[var(--color-brand)]">
             가이드
           </Link>
-          <Link href="/news" className="hover:text-[var(--color-brand)]">
+          <Link href="/news" className="min-h-8 hover:text-[var(--color-brand)]">
             뉴스
           </Link>
-          <Link href="/stock" className="hover:text-[var(--color-brand)]">
+          <Link href="/stock" className="min-h-8 hover:text-[var(--color-brand)]">
             종목
           </Link>
         </nav>
         <nav className="flex flex-col gap-2">
-          <span className="text-xs uppercase tracking-widest text-[var(--color-ink-soft)]">
+          <span className="eyebrow mb-3 text-[var(--color-brand)]">
             정보
           </span>
-          <Link href="/about" className="hover:text-[var(--color-brand)]">
+          <Link href="/about" className="min-h-8 hover:text-[var(--color-brand)]">
             소개
           </Link>
-          <Link href="/disclaimer" className="hover:text-[var(--color-brand)]">
+          <Link href="/disclaimer" className="min-h-8 hover:text-[var(--color-brand)]">
             투자 유의사항
           </Link>
-          <Link href="/privacy" className="hover:text-[var(--color-brand)]">
+          <Link href="/privacy" className="min-h-8 hover:text-[var(--color-brand)]">
             개인정보처리방침
           </Link>
         </nav>
       </div>
       <div className="border-t">
-        <div className="wrap py-6 text-xs text-[var(--color-ink-soft)] flex flex-wrap gap-2 justify-between">
+        <div className="wrap flex flex-wrap justify-between gap-2 py-6 font-mono text-[10px] uppercase tracking-wider text-[var(--color-ink-soft)]">
           <span>
             © {year} {siteConfig.name}. 모든 콘텐츠는 정보 제공용이며 투자 권유가
             아닙니다.

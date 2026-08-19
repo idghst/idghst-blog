@@ -12,11 +12,18 @@ export function PostCard({
 }) {
   return (
     <article
-      className={`group flex flex-col border-b py-6 ${
-        featured ? "sm:py-8" : ""
+      className={`group relative flex flex-col border-b transition-colors ${
+        featured
+          ? "py-10 sm:py-14"
+          : "py-7 hover:bg-[var(--color-paper-2)]/45 sm:px-4 sm:-mx-4"
       }`}
     >
-      <div className="flex items-center gap-3 text-xs text-[var(--color-ink-soft)]">
+      {featured ? (
+        <span className="absolute right-0 top-10 font-mono text-[10px] tracking-[0.14em] text-[var(--color-brand)]">
+          FEATURED
+        </span>
+      ) : null}
+      <div className="flex flex-wrap items-center gap-3 text-[11px] tracking-wide text-[var(--color-ink-soft)]">
         <TypeBadge type={post.type} />
         <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
         <span aria-hidden>·</span>
@@ -29,8 +36,8 @@ export function PostCard({
       </div>
 
       <h3
-        className={`mt-3 font-display leading-snug tracking-tight ${
-          featured ? "text-2xl sm:text-3xl" : "text-xl"
+        className={`mt-5 max-w-3xl font-display leading-[1.18] ${
+          featured ? "text-3xl sm:text-5xl" : "text-xl sm:text-2xl"
         }`}
       >
         <Link
@@ -41,17 +48,21 @@ export function PostCard({
         </Link>
       </h3>
 
-      <p className="mt-2 line-clamp-2 text-[var(--color-ink-soft)]">
+      <p
+        className={`mt-4 line-clamp-2 leading-7 text-[var(--color-ink-soft)] ${
+          featured ? "max-w-2xl text-base sm:text-lg" : "text-sm"
+        }`}
+      >
         {post.description}
       </p>
 
       {post.tags.length ? (
-        <div className="mt-3 flex flex-wrap gap-2 text-xs text-[var(--color-ink-soft)]">
+        <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--color-ink-soft)]">
           {post.tags.slice(0, 4).map((tag) => (
             <Link
               key={tag}
               href={`/tags/${encodeURIComponent(tag)}`}
-              className="rounded-full bg-[var(--color-paper-2)] px-2 py-0.5 hover:text-[var(--color-brand)]"
+              className="border-l border-[var(--color-brand)] pl-2 transition-colors hover:text-white"
             >
               #{tag}
             </Link>

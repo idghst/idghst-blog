@@ -44,12 +44,12 @@ export default async function TypeListPage({
   const posts = getPostsByType(type);
 
   return (
-    <div className="wrap-narrow py-10 sm:py-14">
-      <header className="border-b pb-6">
-        <p className="text-sm font-medium uppercase tracking-widest text-[var(--color-brand)]">
+    <div className="wrap-narrow py-12 sm:py-20">
+      <header className="border-b pb-10">
+        <p className="eyebrow text-[var(--color-brand)]">
           {meta.label}
         </p>
-        <h1 className="mt-2 font-display text-4xl tracking-tight">
+        <h1 className="mt-4 font-display text-5xl leading-none sm:text-6xl">
           {meta.label} 모아보기
         </h1>
         <p className="mt-3 text-lg text-[var(--color-ink-soft)]">{meta.blurb}</p>

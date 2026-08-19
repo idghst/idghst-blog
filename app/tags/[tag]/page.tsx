@@ -34,12 +34,12 @@ export default async function TagPage({
   if (!posts.length) notFound();
 
   return (
-    <div className="wrap-narrow py-10 sm:py-14">
-      <header className="border-b pb-6">
-        <p className="text-sm font-medium uppercase tracking-widest text-[var(--color-brand)]">
+    <div className="wrap-narrow py-12 sm:py-20">
+      <header className="border-b pb-10">
+        <p className="eyebrow text-[var(--color-brand)]">
           태그
         </p>
-        <h1 className="mt-2 font-display text-4xl tracking-tight">
+        <h1 className="mt-4 font-display text-5xl leading-none sm:text-6xl">
           #{decoded}
         </h1>
         <p className="mt-3 text-[var(--color-ink-soft)]">

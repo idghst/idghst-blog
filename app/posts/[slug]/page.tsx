@@ -106,7 +106,7 @@ export default async function PostPage({
   };
 
   return (
-    <div className="wrap py-10 sm:py-14">
+    <div className="wrap py-12 sm:py-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
@@ -131,21 +131,21 @@ export default async function PostPage({
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[1fr_16rem]">
         <article className="min-w-0">
-          <header className="border-b pb-6">
+          <header className="border-b pb-10">
             <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-ink-soft)]">
               <TypeBadge type={post.type} />
               <time dateTime={post.publishedAt}>
                 {formatDate(post.publishedAt)}
               </time>
               <span aria-hidden>·</span>
-              <span>{post.readingMinutes}분 읽기</span>
+              <span className="font-mono">{post.readingMinutes} MIN READ</span>
               {post.ticker ? (
                 <span className="font-mono text-[var(--color-stock)]">
                   {post.ticker}
                 </span>
               ) : null}
             </div>
-            <h1 className="mt-4 font-display text-3xl leading-tight tracking-tight sm:text-4xl">
+            <h1 className="mt-6 max-w-4xl font-display text-4xl leading-[1.08] sm:text-6xl">
               {post.title}
             </h1>
             <p className="mt-3 text-lg text-[var(--color-ink-soft)]">
@@ -176,7 +176,7 @@ export default async function PostPage({
                 <Link
                   key={tag}
                   href={`/tags/${encodeURIComponent(tag)}`}
-                  className="rounded-full border px-3 py-1 text-sm text-[var(--color-ink-soft)] hover:text-[var(--color-brand)]"
+                  className="border-l border-[var(--color-brand)] py-1 pl-3 text-xs font-semibold tracking-wide text-[var(--color-ink-soft)] hover:text-white"
                 >
                   #{tag}
                 </Link>
@@ -189,7 +189,7 @@ export default async function PostPage({
               <h2 className="font-display text-2xl">함께 읽으면 좋은 글</h2>
               <ul className="mt-4 grid gap-4 sm:grid-cols-2">
                 {related.map((r) => (
-                  <li key={r.slug} className="rounded-lg border p-4">
+                  <li key={r.slug} className="border p-5 transition-colors hover:bg-[var(--color-paper-2)]">
                     <TypeBadge type={r.type} />
                     <Link
                       href={r.url}
