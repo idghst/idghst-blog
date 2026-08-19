@@ -11,7 +11,6 @@ export const siteConfig = {
   locale: "ko_KR",
   lang: "ko",
   author: "IDGHST",
-  email: "hello@idghst.co.kr",
   nav: [
     { href: "/guide", label: "가이드", type: "guide" as PostType },
     { href: "/news", label: "뉴스", type: "news" as PostType },
