@@ -5,10 +5,9 @@ export const siteConfig = {
   title: "idghst blog — 금융·재테크·주식 인사이트",
   description:
     "복잡한 금융을 쉽게 푸는 한국어 재테크 블로그. 투자 가이드, 시장 뉴스 해설, 종목 분석을 담백하게 정리합니다.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://blog.idghst.co.kr").replace(
-    /\/$/,
-    "",
-  ),
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://blog.idghst.co.kr"
+  ).replace(/\/$/, ""),
   locale: "ko_KR",
   lang: "ko",
   author: "idghst",
