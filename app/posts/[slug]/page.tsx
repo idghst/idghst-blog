@@ -15,10 +15,11 @@ import { TypeBadge } from "@/components/type-badge";
 import { Disclaimer } from "@/components/disclaimer";
 import { AdSenseSlot } from "@/components/ads/adsense-slot";
 
-export const dynamicParams = false;
+export const revalidate = 60;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  return (await getAllSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -27,7 +28,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return {};
 
   const url = absoluteUrl(post.url);
@@ -58,12 +59,12 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
 
   const toc = extractToc(post.content);
   const [first, second] = splitAtMiddle(post.content);
-  const related = getRelatedPosts(post, 3);
+  const related = await getRelatedPosts(post, 3);
   const meta = typeMeta[post.type];
 
   const articleLd = {

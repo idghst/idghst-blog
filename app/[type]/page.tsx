@@ -41,7 +41,7 @@ export default async function TypeListPage({
   if (!isPostType(type)) notFound();
 
   const meta = typeMeta[type];
-  const posts = getPostsByType(type);
+  const posts = await getPostsByType(type);
 
   return (
     <div className="wrap-narrow py-12 sm:py-20">

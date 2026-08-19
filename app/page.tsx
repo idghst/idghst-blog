@@ -4,10 +4,16 @@ import { PostCard } from "@/components/post-card";
 import { siteConfig, typeMeta } from "@/lib/site";
 import type { PostType } from "@/lib/site";
 
-export default function HomePage() {
-  const latest = getLatestPosts(5);
+export default async function HomePage() {
+  const latest = await getLatestPosts(5);
   const [featured, ...rest] = latest;
   const types: PostType[] = ["guide", "news", "stock"];
+  const typed = await Promise.all(
+    types.map(async (type) => ({
+      type,
+      posts: (await getPostsByType(type)).slice(0, 3),
+    })),
+  );
 
   return (
     <div>
@@ -67,8 +73,7 @@ export default function HomePage() {
             <p className="eyebrow text-[var(--color-brand)]">Sections</p>
             <h2 className="mt-2 font-display text-3xl">분류별 읽기</h2>
           </div>
-          {types.map((type) => {
-            const posts = getPostsByType(type).slice(0, 3);
+          {typed.map(({ type, posts }) => {
             if (!posts.length) return null;
             return (
               <section key={type} className="border-b pb-8">

@@ -3,10 +3,11 @@ import { notFound } from "next/navigation";
 import { getAllTags, getPostsByTag } from "@/lib/posts";
 import { PostCard } from "@/components/post-card";
 
-export const dynamicParams = false;
+export const revalidate = 60;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return getAllTags().map(({ tag }) => ({ tag }));
+export async function generateStaticParams() {
+  return (await getAllTags()).map(({ tag }) => ({ tag }));
 }
 
 export async function generateMetadata({
@@ -30,7 +31,7 @@ export default async function TagPage({
 }) {
   const { tag } = await params;
   const decoded = decodeURIComponent(tag);
-  const posts = getPostsByTag(decoded);
+  const posts = await getPostsByTag(decoded);
   if (!posts.length) notFound();
 
   return (

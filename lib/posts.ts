@@ -1,11 +1,11 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
 import readingTime from "reading-time";
 import type { PostType } from "./site";
 
-const CONTENT_DIR = path.join(process.cwd(), "content");
-const POST_TYPES: PostType[] = ["guide", "news", "stock"];
+const API_BASE = (
+  process.env.BLOG_API_URL?.trim() ||
+  process.env.NEXT_PUBLIC_BLOG_API_URL?.trim() ||
+  "https://api-blog.idghst.co.kr"
+).replace(/\/$/, "");
 
 export type PostFrontmatter = {
   slug: string;
@@ -29,50 +29,37 @@ export type Post = PostMeta & {
   content: string;
 };
 
-function readTypeDir(type: PostType): Post[] {
-  const dir = path.join(CONTENT_DIR, type);
-  if (!fs.existsSync(dir)) return [];
+type ApiPost = {
+  slug: string;
+  title: string;
+  description: string;
+  type: PostType;
+  tags: string[];
+  body: string;
+  ticker?: string | null;
+  cover?: string | null;
+  draft: boolean;
+  publishedAt?: string | null;
+  updatedAt?: string;
+};
 
-  return fs
-    .readdirSync(dir)
-    .filter((file) => file.endsWith(".mdx") || file.endsWith(".md"))
-    .map((file) => {
-      const raw = fs.readFileSync(path.join(dir, file), "utf8");
-      const { data, content } = matter(raw);
-      const slug = String(data.slug ?? file.replace(/\.mdx?$/, ""));
-
-      const fm: PostFrontmatter = {
-        slug,
-        title: String(data.title ?? slug),
-        description: String(data.description ?? ""),
-        type,
-        tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
-        publishedAt: String(data.publishedAt ?? ""),
-        updatedAt: data.updatedAt ? String(data.updatedAt) : undefined,
-        ticker: data.ticker ? String(data.ticker) : undefined,
-        cover: data.cover ? String(data.cover) : undefined,
-        draft: Boolean(data.draft ?? false),
-      };
-
-      return {
-        ...fm,
-        readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
-        url: `/posts/${slug}`,
-        content,
-      };
-    });
-}
-
-let cache: Post[] | null = null;
-
-function loadAll(): Post[] {
-  if (cache) return cache;
-  const isProd = process.env.NODE_ENV === "production";
-  const posts = POST_TYPES.flatMap(readTypeDir)
-    .filter((p) => !(isProd && p.draft))
-    .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
-  cache = posts;
-  return posts;
+function toPost(row: ApiPost): Post {
+  const content = row.body ?? "";
+  return {
+    slug: row.slug,
+    title: row.title,
+    description: row.description,
+    type: row.type,
+    tags: Array.isArray(row.tags) ? row.tags : [],
+    publishedAt: row.publishedAt ?? "",
+    updatedAt: row.updatedAt,
+    ticker: row.ticker ?? undefined,
+    cover: row.cover ?? undefined,
+    draft: Boolean(row.draft),
+    readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
+    url: `/posts/${row.slug}`,
+    content,
+  };
 }
 
 function strip(post: Post): PostMeta {
@@ -81,31 +68,50 @@ function strip(post: Post): PostMeta {
   return meta;
 }
 
-export function getAllPosts(): PostMeta[] {
-  return loadAll().map(strip);
+async function apiGet<T>(path: string): Promise<T | null> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    next: { revalidate: 60 },
+    headers: { Accept: "application/json" },
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    throw new Error(`Blog API ${res.status}`);
+  }
+  return (await res.json()) as T;
 }
 
-export function getPostsByType(type: PostType): PostMeta[] {
-  return loadAll()
-    .filter((p) => p.type === type)
-    .map(strip);
+async function loadAll(): Promise<Post[]> {
+  const data = await apiGet<{ items: ApiPost[] }>("/api/posts?limit=200");
+  return (data?.items ?? []).map(toPost);
 }
 
-export function getLatestPosts(limit = 6): PostMeta[] {
-  return getAllPosts().slice(0, limit);
+export async function getAllPosts(): Promise<PostMeta[]> {
+  return (await loadAll()).map(strip);
 }
 
-export function getPostBySlug(slug: string): Post | null {
-  return loadAll().find((p) => p.slug === slug) ?? null;
+export async function getPostsByType(type: PostType): Promise<PostMeta[]> {
+  const data = await apiGet<{ items: ApiPost[] }>(
+    `/api/posts?limit=200&type=${type}`,
+  );
+  return (data?.items ?? []).map((row) => strip(toPost(row)));
 }
 
-export function getAllSlugs(): string[] {
-  return loadAll().map((p) => p.slug);
+export async function getLatestPosts(limit = 6): Promise<PostMeta[]> {
+  return (await getAllPosts()).slice(0, limit);
 }
 
-export function getAllTags(): { tag: string; count: number }[] {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const row = await apiGet<ApiPost>(`/api/posts/${encodeURIComponent(slug)}`);
+  return row ? toPost(row) : null;
+}
+
+export async function getAllSlugs(): Promise<string[]> {
+  return (await getAllPosts()).map((p) => p.slug);
+}
+
+export async function getAllTags(): Promise<{ tag: string; count: number }[]> {
   const counts = new Map<string, number>();
-  for (const post of loadAll()) {
+  for (const post of await loadAll()) {
     for (const tag of post.tags) {
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
@@ -115,15 +121,18 @@ export function getAllTags(): { tag: string; count: number }[] {
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag, "ko"));
 }
 
-export function getPostsByTag(tag: string): PostMeta[] {
+export async function getPostsByTag(tag: string): Promise<PostMeta[]> {
   const lower = tag.toLowerCase();
-  return getAllPosts().filter((p) =>
+  return (await getAllPosts()).filter((p) =>
     p.tags.some((t) => t.toLowerCase() === lower),
   );
 }
 
-export function getRelatedPosts(post: PostMeta, limit = 3): PostMeta[] {
-  const others = getAllPosts().filter((p) => p.slug !== post.slug);
+export async function getRelatedPosts(
+  post: PostMeta,
+  limit = 3,
+): Promise<PostMeta[]> {
+  const others = (await getAllPosts()).filter((p) => p.slug !== post.slug);
   const scored = others.map((p) => {
     let score = p.type === post.type ? 1 : 0;
     score += p.tags.filter((t) => post.tags.includes(t)).length * 2;
