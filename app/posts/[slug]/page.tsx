@@ -14,6 +14,7 @@ import { Toc } from "@/components/toc";
 import { TypeBadge } from "@/components/type-badge";
 import { Disclaimer } from "@/components/disclaimer";
 import { AdSenseSlot } from "@/components/ads/adsense-slot";
+import { CommentSection } from "@/components/comments";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -170,6 +171,8 @@ export default async function PostPage({
           <AdSenseSlot slot="3333333333" />
 
           <Disclaimer />
+
+          <CommentSection slug={post.slug} />
 
           {post.tags.length ? (
             <div className="mt-8 flex flex-wrap gap-2">

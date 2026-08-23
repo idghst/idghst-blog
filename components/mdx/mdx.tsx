@@ -39,6 +39,17 @@ const components: MDXComponents = {
     }
     return <Link href={target}>{children}</Link>;
   },
+  img: ({ src, alt }) => {
+    const raw = String(src ?? "");
+    const blobId = raw.startsWith("blob:") ? raw.slice("blob:".length) : "";
+    const imageSrc = blobId ? `/api/blobs/${blobId}` : raw;
+    return (
+      <figure className="paper-figure">
+        <img src={imageSrc} alt={alt ?? ""} />
+        {alt ? <figcaption>{alt}</figcaption> : null}
+      </figure>
+    );
+  },
 };
 
 export function Mdx({ source }: { source: string }) {

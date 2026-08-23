@@ -7,6 +7,10 @@ const API_BASE = (
   "https://api-blog.idghst.co.kr"
 ).replace(/\/$/, "");
 
+export function blogApiUrl(): string {
+  return API_BASE;
+}
+
 export type PostFrontmatter = {
   slug: string;
   title: string;
