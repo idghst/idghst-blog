@@ -195,3 +195,178 @@ body {
     }
   }
 }
+
+/* ── 본문 강조 ──────────────────────────────────────────── */
+
+/* 리드 문단: 첫 문단만 크게 */
+.prose-blog > p:first-child {
+  color: var(--color-ink);
+  font-size: 1.15em;
+  line-height: 1.7;
+  border-left: 2px solid var(--color-brand);
+  padding-left: 1.25rem;
+}
+
+/* 굵게: 형광펜 밑선으로 눈에 걸리게 */
+.prose-blog :where(strong) {
+  color: var(--color-ink);
+  font-weight: 600;
+  background-image: linear-gradient(
+    transparent 62%,
+    color-mix(in srgb, var(--color-brand) 40%, transparent) 0
+  );
+  padding-inline: 0.05em;
+}
+
+/* 섹션 제목: 앞에 브랜드 틱 */
+.prose-blog :where(h2)::before {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  margin-bottom: 0.9rem;
+  background: var(--color-brand);
+  content: "";
+}
+
+/* 정리/요약 섹션은 굵은 룰로 닫는다 */
+.prose-blog :where(h2[data-closing]) {
+  border-top: 1px solid var(--color-line);
+  padding-top: 2rem;
+}
+
+.prose-blog :where(h2[data-closing])::before {
+  width: 100%;
+  height: 3px;
+  margin-top: -2rem;
+  margin-bottom: 2rem;
+  background: var(--color-brand);
+}
+
+/* 콜아웃: > [!핵심] / [!주의] / [!체크] / [!수치] */
+.callout {
+  margin: 2rem 0;
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--callout-accent, var(--color-brand));
+  background: var(--color-paper-2);
+  padding: 1.25rem 1.5rem;
+}
+
+.callout[data-tone="key"] {
+  --callout-accent: var(--color-brand);
+}
+
+.callout[data-tone="warn"] {
+  --callout-accent: #f6e500;
+}
+
+.callout[data-tone="check"] {
+  --callout-accent: var(--color-up);
+}
+
+.callout[data-tone="stat"] {
+  --callout-accent: var(--color-ink);
+}
+
+.callout-label {
+  margin: 0 0 0.6rem;
+  color: var(--callout-accent, var(--color-brand));
+}
+
+.callout-body > :first-child {
+  margin-top: 0;
+}
+
+.callout-body > :last-child {
+  margin-bottom: 0;
+}
+
+.prose-blog .callout-body {
+  color: var(--color-ink);
+}
+
+.prose-blog .callout-body :where(p) {
+  margin-block: 0.6em;
+}
+
+.prose-blog .callout-body :where(ul, ol) {
+  margin-block: 0.6em;
+  padding-left: 1.2em;
+}
+
+/* 마커만 있던 빈 문단은 지운다 */
+.prose-blog .callout-body :where(p:empty) {
+  display: none;
+}
+
+.prose-blog .callout-body > p:empty + * {
+  margin-top: 0;
+}
+
+/* [!수치] 안의 목록은 지표 스트립으로 */
+.prose-blog .callout[data-tone="stat"] :where(ul) {
+  display: grid;
+  gap: 0.75rem 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .prose-blog .callout[data-tone="stat"] :where(ul) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.prose-blog .callout[data-tone="stat"] :where(li) {
+  margin: 0;
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-blog .callout[data-tone="stat"] :where(li)::marker {
+  content: none;
+}
+
+/* 마커 없는 인용문: 풀 쿼트 */
+.prose-blog :where(blockquote.pull-quote) {
+  border-left: 0;
+  padding: 0;
+  font-family: var(--font-serif);
+  font-size: 1.35em;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  margin: 2.5rem 0;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  padding-block: 1.5rem;
+}
+
+.prose-blog :where(blockquote.pull-quote) p::before,
+.prose-blog :where(blockquote.pull-quote) p::after {
+  content: "";
+}
+
+/* 표: 헤더는 아이브로, 숫자는 등폭 */
+.prose-blog :where(table) {
+  font-size: 0.95em;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-blog :where(thead) {
+  border-bottom: 2px solid var(--color-brand);
+}
+
+.prose-blog :where(th) {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+}
+
+.prose-blog :where(tbody tr:hover) {
+  background: var(--color-paper-2);
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/lib/site";
+import { aiDisclosure, siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "투자 유의사항",
@@ -17,6 +17,22 @@ export default function DisclaimerPage() {
           목적으로 작성되었으며, 특정 금융상품이나 종목의 매수·매도를 권유하는
           투자 자문이 아닙니다.
         </p>
+        <h2 id="ai">AI 작성 고지</h2>
+        <p>{aiDisclosure.long}</p>
+        <ul>
+          <li>
+            글의 기획·조사·집필은 AI가 수행하며, 사람의 개별 검수를 거쳤다고
+            보증하지 않습니다.
+          </li>
+          <li>
+            수치·날짜·인용은 공개된 원문에서 확인한 값을 쓰지만, 인용 시점 이후
+            정정되거나 달라질 수 있습니다.
+          </li>
+          <li>
+            AI가 작성한 글에는 목록 화면과 글 상단에 <strong>AI 작성</strong>{" "}
+            표시가 붙습니다.
+          </li>
+        </ul>
         <h2>책임의 한계</h2>
         <ul>
           <li>
