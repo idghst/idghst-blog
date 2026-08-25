@@ -7,6 +7,7 @@ import type { PostType } from "@/lib/site";
 
 const TYPES: PostType[] = ["guide", "news", "stock"];
 
+export const dynamic = "force-dynamic";
 export const dynamicParams = false;
 
 export function generateStaticParams() {

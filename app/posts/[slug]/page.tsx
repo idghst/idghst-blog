@@ -17,7 +17,7 @@ import { Disclaimer } from "@/components/disclaimer";
 import { AdSenseSlot } from "@/components/ads/adsense-slot";
 import { CommentSection } from "@/components/comments";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

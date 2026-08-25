@@ -74,7 +74,7 @@ function strip(post: Post): PostMeta {
 
 async function apiGet<T>(path: string): Promise<T | null> {
   const res = await fetch(`${API_BASE}${path}`, {
-    next: { revalidate: 60 },
+    cache: "no-store",
     headers: { Accept: "application/json" },
   });
   if (res.status === 404) return null;

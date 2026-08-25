@@ -4,6 +4,8 @@ import { PostCard } from "@/components/post-card";
 import { siteConfig, typeMeta } from "@/lib/site";
 import type { PostType } from "@/lib/site";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const latest = await getLatestPosts(5);
   const [featured, ...rest] = latest;
