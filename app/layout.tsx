@@ -60,6 +60,7 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
   },
   icons: {
+    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
     apple: "/icons/apple-touch-icon.png",
   },
 };

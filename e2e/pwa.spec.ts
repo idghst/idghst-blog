@@ -26,6 +26,12 @@ test("service worker script is served", async ({ request }) => {
   expect(body).toContain("fetch");
 });
 
+test("favicon is served", async ({ request }) => {
+  const res = await request.get("/favicon.ico");
+  expect(res.ok()).toBeTruthy();
+  expect(res.headers()["content-type"] ?? "").toMatch(/icon|octet-stream/);
+});
+
 test("PWA icons exist", async ({ request }) => {
   for (const path of [
     "/icons/icon-192.png",
