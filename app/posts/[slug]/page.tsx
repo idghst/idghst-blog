@@ -7,12 +7,11 @@ import {
   getPostBySlug,
   getRelatedPosts,
 } from "@/lib/posts";
-import { absoluteUrl, aiDisclosure, siteConfig, typeMeta } from "@/lib/site";
+import { absoluteUrl, siteConfig, typeMeta } from "@/lib/site";
 import { extractToc, splitAtMiddle } from "@/lib/toc";
 import { Mdx } from "@/components/mdx/mdx";
 import { Toc } from "@/components/toc";
 import { TypeBadge } from "@/components/type-badge";
-import { AiBadge } from "@/components/ai-badge";
 import { Disclaimer } from "@/components/disclaimer";
 import { AdSenseSlot } from "@/components/ads/adsense-slot";
 import { CommentSection } from "@/components/comments";
@@ -78,8 +77,6 @@ export default async function PostPage({
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     author: { "@type": "Organization", name: siteConfig.author },
-    creativeWorkStatus: "AI-generated",
-    disclaimer: aiDisclosure.long,
     publisher: {
       "@type": "Organization",
       name: siteConfig.name,
@@ -139,7 +136,6 @@ export default async function PostPage({
           <header className="border-b pb-10">
             <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-ink-soft)]">
               <TypeBadge type={post.type} />
-              <AiBadge />
               <time dateTime={post.publishedAt}>
                 {formatDate(post.publishedAt)}
               </time>
@@ -156,15 +152,6 @@ export default async function PostPage({
             </h1>
             <p className="mt-3 text-lg text-[var(--color-ink-soft)]">
               {post.description}
-            </p>
-            <p className="mt-4 text-xs text-[var(--color-ink-soft)]">
-              {aiDisclosure.short}{" "}
-              <Link
-                href="/disclaimer#ai"
-                className="underline hover:text-[var(--color-brand)]"
-              >
-                AI 작성 고지
-              </Link>
             </p>
           </header>
 

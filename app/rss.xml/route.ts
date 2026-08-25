@@ -1,5 +1,5 @@
 import { getAllPosts } from "@/lib/posts";
-import { absoluteUrl, aiDisclosure, siteConfig } from "@/lib/site";
+import { absoluteUrl, siteConfig } from "@/lib/site";
 
 function escapeXml(value: string): string {
   return value
@@ -22,7 +22,7 @@ export async function GET() {
       <title>${escapeXml(post.title)}</title>
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
-      <description>${escapeXml(`${post.description} (${aiDisclosure.short})`)}</description>
+      <description>${escapeXml(post.description)}</description>
       <category>${escapeXml(post.type)}</category>
       <pubDate>${date}</pubDate>
     </item>`;
@@ -34,7 +34,7 @@ export async function GET() {
   <channel>
     <title>${escapeXml(siteConfig.name)}</title>
     <link>${siteConfig.url}</link>
-    <description>${escapeXml(`${siteConfig.description} ${aiDisclosure.siteWide}`)}</description>
+    <description>${escapeXml(siteConfig.description)}</description>
     <language>ko</language>
     <atom:link href="${absoluteUrl("/rss.xml")}" rel="self" type="application/rss+xml" />
 ${items}

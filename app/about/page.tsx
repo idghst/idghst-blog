@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { aiDisclosure, siteConfig } from "@/lib/site";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "소개",
@@ -26,13 +25,6 @@ export default function AboutPage() {
           <li>근거 우선. 감이 아니라 숫자와 출처로 이야기합니다.</li>
           <li>중립. 특정 종목·상품을 추천하거나 홍보하지 않습니다.</li>
         </ul>
-        <h2>AI 작성 고지</h2>
-        <p>
-          {aiDisclosure.long} 각 글의 상단과 목록에는{" "}
-          <strong>AI 작성</strong> 표시가 붙습니다. 자세한 내용은{" "}
-          <Link href="/disclaimer#ai">투자 유의사항의 AI 작성 고지</Link>를
-          확인하세요.
-        </p>
         <h2>수익 모델</h2>
         <p>
           이 사이트는 Google AdSense 등 광고를 통해 운영될 수 있습니다. 광고는

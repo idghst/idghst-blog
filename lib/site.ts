@@ -40,16 +40,6 @@ export const typeMeta: Record<
   },
 };
 
-/**
- * AI 작성 고지. 화면에 노출되는 문구는 여기 한 곳에서 관리한다.
- */
-export const aiDisclosure = {
-  label: "AI 작성",
-  short: "이 글은 AI가 작성했습니다.",
-  long: "이 글은 공개된 자료를 바탕으로 AI가 작성했습니다. 본문의 수치와 날짜는 원문에서 확인한 값을 쓰지만, 사실과 다르거나 최신이 아닐 수 있습니다. 중요한 판단 전에는 원문과 공식 자료를 직접 확인하세요.",
-  siteWide: "이 사이트의 글은 AI가 작성합니다.",
-} as const;
-
 export function absoluteUrl(path = "/"): string {
   const p = path.startsWith("/") ? path : `/${path}`;
   return `${siteConfig.url}${p}`;

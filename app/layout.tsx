@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_KR, IBM_Plex_Mono } from "next/font/google";
 import Link from "next/link";
-import { aiDisclosure, siteConfig } from "@/lib/site";
+import { siteConfig } from "@/lib/site";
 import { SiteHeader } from "@/components/site-header";
 import { PwaRegister } from "@/components/pwa-register";
 import { AdsenseLoader } from "@/components/ads/adsense-loader";
@@ -135,8 +135,8 @@ function SiteFooter() {
       <div className="border-t">
         <div className="wrap flex flex-wrap justify-between gap-2 py-6 font-mono text-[10px] uppercase tracking-wider text-[var(--color-ink-soft)]">
           <span>
-            © {year} {siteConfig.name}. {aiDisclosure.siteWide} 모든 콘텐츠는
-            정보 제공용이며 투자 권유가 아닙니다.
+            © {year} {siteConfig.name}. 모든 콘텐츠는 정보 제공용이며 투자
+            권유가 아닙니다.
           </span>
           <span>{siteConfig.url.replace(/^https?:\/\//, "")}</span>
         </div>
