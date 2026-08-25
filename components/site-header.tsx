@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
+import { PwaInstall } from "@/components/pwa-register";
 
 export function SiteHeader() {
   return (
@@ -14,20 +15,23 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav
-          aria-label="주요 메뉴"
-          className="flex items-center gap-1 overflow-x-auto text-[11px] font-semibold tracking-[0.1em] [scrollbar-width:none]"
-        >
-          {siteConfig.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex min-h-12 items-center whitespace-nowrap px-3 text-[var(--color-ink-soft)] transition-colors hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex min-w-0 items-center">
+          <nav
+            aria-label="주요 메뉴"
+            className="flex items-center gap-1 overflow-x-auto text-[11px] font-semibold tracking-[0.1em] [scrollbar-width:none]"
+          >
+            {siteConfig.nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex min-h-12 items-center whitespace-nowrap px-3 text-[var(--color-ink-soft)] transition-colors hover:text-white"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <PwaInstall />
+        </div>
       </div>
     </header>
   );

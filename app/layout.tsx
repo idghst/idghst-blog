@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_KR, IBM_Plex_Mono } from "next/font/google";
 import Link from "next/link";
 import { aiDisclosure, siteConfig } from "@/lib/site";
 import { SiteHeader } from "@/components/site-header";
+import { PwaRegister } from "@/components/pwa-register";
 import { AdsenseLoader } from "@/components/ads/adsense-loader";
 import "./globals.css";
 
@@ -53,6 +54,19 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  appleWebApp: {
+    capable: true,
+    title: siteConfig.name,
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    apple: "/icons/apple-touch-icon.png",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#181818",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -64,6 +78,7 @@ export default function RootLayout({
         className={`${sans.variable} ${mono.variable} min-h-dvh flex flex-col`}
       >
         <SiteHeader />
+        <PwaRegister />
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <AdsenseLoader />
