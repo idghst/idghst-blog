@@ -15,8 +15,10 @@ export async function GET() {
   const items = posts
     .map((post) => {
       const link = absoluteUrl(post.url);
+      // pubDate는 발행 시각이다. updatedAt을 쓰면 본문을 고치거나 일괄
+      // 수정이 돌 때마다 구독자에게 전부 새 글로 다시 뜬다.
       const date = new Date(
-        post.updatedAt ?? post.publishedAt ?? Date.now(),
+        post.publishedAt || post.updatedAt || Date.now(),
       ).toUTCString();
       return `    <item>
       <title>${escapeXml(post.title)}</title>
