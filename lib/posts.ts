@@ -22,6 +22,7 @@ export type PostFrontmatter = {
   ticker?: string;
   cover?: string;
   draft?: boolean;
+  viewCount?: number;
 };
 
 export type PostMeta = PostFrontmatter & {
@@ -45,6 +46,7 @@ type ApiPost = {
   draft: boolean;
   publishedAt?: string | null;
   updatedAt?: string;
+  viewCount?: number | null;
 };
 
 function toPost(row: ApiPost): Post {
@@ -60,6 +62,7 @@ function toPost(row: ApiPost): Post {
     ticker: row.ticker ?? undefined,
     cover: row.cover ?? undefined,
     draft: Boolean(row.draft),
+    viewCount: typeof row.viewCount === "number" ? row.viewCount : undefined,
     readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
     url: `/posts/${row.slug}`,
     content,

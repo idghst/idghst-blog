@@ -15,6 +15,7 @@ import { TypeBadge } from "@/components/type-badge";
 import { Disclaimer } from "@/components/disclaimer";
 import { AdSenseSlot } from "@/components/ads/adsense-slot";
 import { CommentSection } from "@/components/comments";
+import { ViewCounter } from "@/components/view-counter";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -145,6 +146,7 @@ export default async function PostPage({
                 </>
               ) : null}
               <span>{post.readingMinutes}분 만에 읽어보세요</span>
+              <ViewCounter slug={post.slug} initialCount={post.viewCount} />
               {post.ticker ? (
                 <span className="font-mono text-[var(--color-stock)]">
                   {post.ticker}
