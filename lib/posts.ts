@@ -148,7 +148,7 @@ export async function getRelatedPosts(
     .map((s) => s.p);
 }
 
-export function formatDate(value?: string): string {
+export function formatDateTime(value?: string): string {
   if (!value) return "";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return value;
@@ -156,5 +156,8 @@ export function formatDate(value?: string): string {
     year: "numeric",
     month: "long",
     day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "Asia/Seoul",
   }).format(d);
 }

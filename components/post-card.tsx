@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { PostMeta } from "@/lib/posts";
-import { formatDate } from "@/lib/posts";
+import { formatDateTime } from "@/lib/posts";
 import { TypeBadge } from "@/components/type-badge";
 
 export function PostCard({
@@ -25,8 +25,14 @@ export function PostCard({
       ) : null}
       <div className="flex flex-wrap items-center gap-3 text-[11px] tracking-wide text-[var(--color-ink-soft)]">
         <TypeBadge type={post.type} />
-        <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-        <span aria-hidden>·</span>
+        {post.publishedAt ? (
+          <>
+            <time dateTime={post.publishedAt}>
+              {formatDateTime(post.publishedAt)}
+            </time>
+            <span aria-hidden>·</span>
+          </>
+        ) : null}
         <span>{post.readingMinutes}분 읽기</span>
         {post.ticker ? (
           <span className="font-mono text-[var(--color-stock)]">

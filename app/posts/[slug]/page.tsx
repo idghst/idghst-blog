@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  formatDate,
+  formatDateTime,
   getAllSlugs,
   getPostBySlug,
   getRelatedPosts,
@@ -136,11 +136,15 @@ export default async function PostPage({
           <header className="border-b pb-10">
             <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-ink-soft)]">
               <TypeBadge type={post.type} />
-              <time dateTime={post.publishedAt}>
-                {formatDate(post.publishedAt)}
-              </time>
-              <span aria-hidden>·</span>
-              <span className="font-mono">{post.readingMinutes} MIN READ</span>
+              {post.publishedAt ? (
+                <>
+                  <time dateTime={post.publishedAt}>
+                    {formatDateTime(post.publishedAt)}
+                  </time>
+                  <span aria-hidden>·</span>
+                </>
+              ) : null}
+              <span>{post.readingMinutes}분 읽기</span>
               {post.ticker ? (
                 <span className="font-mono text-[var(--color-stock)]">
                   {post.ticker}
