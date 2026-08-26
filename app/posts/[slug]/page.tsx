@@ -144,7 +144,7 @@ export default async function PostPage({
                   <span aria-hidden>·</span>
                 </>
               ) : null}
-              <span>{post.readingMinutes}분 읽기</span>
+              <span>{post.readingMinutes}분 만에 읽어보세요</span>
               {post.ticker ? (
                 <span className="font-mono text-[var(--color-stock)]">
                   {post.ticker}
