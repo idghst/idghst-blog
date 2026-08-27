@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   formatDateTime,
+  formatViewCount,
   getAllSlugs,
   getPostBySlug,
   getRelatedPosts,
@@ -207,6 +208,11 @@ export default async function PostPage({
                     >
                       {r.title}
                     </Link>
+                    {formatViewCount(r.viewCount) ? (
+                      <p className="mt-2 text-[11px] tracking-wide text-[var(--color-ink-soft)]">
+                        조회 {formatViewCount(r.viewCount)}
+                      </p>
+                    ) : null}
                   </li>
                 ))}
               </ul>

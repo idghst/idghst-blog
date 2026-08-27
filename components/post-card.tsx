@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { PostMeta } from "@/lib/posts";
-import { formatDateTime } from "@/lib/posts";
+import { formatDateTime, formatViewCount } from "@/lib/posts";
 import { TypeBadge } from "@/components/type-badge";
 
 export function PostCard({
@@ -10,6 +10,7 @@ export function PostCard({
   post: PostMeta;
   featured?: boolean;
 }) {
+  const views = formatViewCount(post.viewCount);
   return (
     <article
       className={`group relative flex flex-col border-b transition-colors ${
@@ -33,7 +34,13 @@ export function PostCard({
             <span aria-hidden>·</span>
           </>
         ) : null}
-        <span>{post.readingMinutes}분 읽기</span>
+        <span>{post.readingMinutes}분 만에 읽어보세요</span>
+        {views ? (
+          <>
+            <span aria-hidden>·</span>
+            <span>조회 {views}</span>
+          </>
+        ) : null}
         {post.ticker ? (
           <span className="font-mono text-[var(--color-stock)]">
             {post.ticker}

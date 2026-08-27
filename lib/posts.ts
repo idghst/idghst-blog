@@ -151,6 +151,11 @@ export async function getRelatedPosts(
     .map((s) => s.p);
 }
 
+export function formatViewCount(value?: number | null): string | undefined {
+  if (typeof value !== "number") return undefined;
+  return new Intl.NumberFormat("ko-KR").format(value);
+}
+
 export function formatDateTime(value?: string): string {
   if (!value) return "";
   const d = new Date(value);
